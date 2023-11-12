@@ -19,7 +19,7 @@ class WindyGridWorldEnv(gym.Env):
             start_state=(3, 0),
             goal_state=(3, 7),
             reward=-1,
-            render_mode="ansi"
+            render_mode=None
     ):
         self.render_mode = render_mode
         self.grid_height = grid_height

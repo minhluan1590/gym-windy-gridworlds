@@ -32,7 +32,7 @@ class StochWindyGridWorldEnv(gym.Env):
             noise_case=1,
             simulator_seed=3323,
             gamma=0.9,
-            render_mode="ansi"
+            render_mode=None
     ):
         self.render_mode = render_mode
         self.prng_simulator = np.random.RandomState(

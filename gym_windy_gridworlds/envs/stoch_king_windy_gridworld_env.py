@@ -26,7 +26,7 @@ class StochKingWindyGridWorldEnv(gym.Env):
             range_random_wind=1,
             prob=[1.0 / 3, 1.0 / 3, 1.0 / 3],
             noise_case=2,
-            render_mode="ansi"
+            render_mode=None
     ):
         self.seed()
         self.render_mode = render_mode
