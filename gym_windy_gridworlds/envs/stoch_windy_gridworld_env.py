@@ -34,7 +34,10 @@ class StochWindyGridWorldEnv(gym.Env):
             gamma=0.9,
             render_mode=None
     ):
+        # Add supported render modes
+        self.metadata = {"render_modes": ["ansi"]}
         self.render_mode = render_mode
+
         self.prng_simulator = np.random.RandomState(
             simulator_seed
         )  # Pseudorandom number generator

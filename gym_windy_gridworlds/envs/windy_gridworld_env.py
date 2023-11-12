@@ -21,7 +21,10 @@ class WindyGridWorldEnv(gym.Env):
             reward=-1,
             render_mode=None
     ):
+        # Add supported render modes
+        self.metadata = {"render_modes": ["ansi"]}
         self.render_mode = render_mode
+
         self.grid_height = grid_height
         self.grid_width = grid_width
         self.wind = wind
