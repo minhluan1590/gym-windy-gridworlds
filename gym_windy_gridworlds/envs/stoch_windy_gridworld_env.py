@@ -20,19 +20,21 @@ class StochWindyGridWorldEnv(gym.Env):
     """
 
     def __init__(
-        self,
-        grid_height=7,
-        grid_width=10,
-        wind=[0, 0, 0, 1, 1, 1, 2, 2, 1, 0],
-        start_cell=(3, 0),
-        goal_cell=(3, 7),
-        reward=-1,
-        range_random_wind=2,
-        prob=[0.35, 0.1, 0.1, 0.1, 0.35],
-        noise_case=1,
-        simulator_seed=3323,
-        gamma=0.9,
+            self,
+            grid_height=7,
+            grid_width=10,
+            wind=[0, 0, 0, 1, 1, 1, 2, 2, 1, 0],
+            start_cell=(3, 0),
+            goal_cell=(3, 7),
+            reward=-1,
+            range_random_wind=2,
+            prob=[0.35, 0.1, 0.1, 0.1, 0.35],
+            noise_case=1,
+            simulator_seed=3323,
+            gamma=0.9,
+            render_mode="ansi"
     ):
+        self.render_mode = render_mode
         self.prng_simulator = np.random.RandomState(
             simulator_seed
         )  # Pseudorandom number generator
@@ -137,7 +139,7 @@ class StochWindyGridWorldEnv(gym.Env):
         """TODO"""
         self.P_new = np.zeros((self.nS + 1, self.nA, self.nS + 1))
         self.P_new[:, :, self.nS] = 1 - self.gamma
-        self.P_new[0 : self.nS, :, 0 : self.nS] = self.gamma * self.P
+        self.P_new[0: self.nS, :, 0: self.nS] = self.gamma * self.P
         self.P_new[self.nS, :, self.nS] = 1
 
     def _virtual_step_absorb(self, s, a, force_noise=None):
@@ -343,13 +345,13 @@ class StochWindyGridWorldEnv(gym.Env):
         self.realized_wind = self.wind
         return self.observation, {}
 
-    def render(self, mode="human", close=False):
+    def render(self, close=False):
         """Renders the environment. Code borrowed and them modified
         from https://github.com/dennybritz/reinforcement-learning"""
         if close:
             return
 
-        outfile = StringIO() if mode == "ansi" else sys.stdout
+        outfile = StringIO() if self.render_mode == "ansi" else sys.stdout
 
         for s in range(self.nS):
             position = self.dim1to2(s)

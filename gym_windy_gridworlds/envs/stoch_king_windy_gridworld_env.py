@@ -16,18 +16,20 @@ class StochKingWindyGridWorldEnv(gym.Env):
     """
 
     def __init__(
-        self,
-        grid_height=7,
-        grid_width=10,
-        wind=[0, 0, 0, 1, 1, 1, 2, 2, 1, 0],
-        start_state=(3, 0),
-        goal_state=(3, 7),
-        reward=-1,
-        range_random_wind=1,
-        prob=[1.0 / 3, 1.0 / 3, 1.0 / 3],
-        noise_case=2,
+            self,
+            grid_height=7,
+            grid_width=10,
+            wind=[0, 0, 0, 1, 1, 1, 2, 2, 1, 0],
+            start_state=(3, 0),
+            goal_state=(3, 7),
+            reward=-1,
+            range_random_wind=1,
+            prob=[1.0 / 3, 1.0 / 3, 1.0 / 3],
+            noise_case=2,
+            render_mode="ansi"
     ):
         self.seed()
+        self.render_mode = render_mode
         self.grid_height = grid_height
         self.grid_width = grid_width
         self.wind = np.array(wind)
@@ -136,10 +138,14 @@ class StochKingWindyGridWorldEnv(gym.Env):
         self.observation = self.start_state
         return self.observation, {}
 
-    def render(self, mode="human", close=False):
+    def render(self, close=False):
         """Renders the environment. Code borrowed and then modified
         from
         https://github.com/openai/gym/blob/master/gym/envs/toy_text/cliffwalking.py"""
+        # Only render in text mode
+        if self.render_mode != "ansi":
+            raise NotImplementedError('Only rendering in text mode (ansi) is supported')
+
         outfile = sys.stdout
         nS = self.grid_height * self.grid_width
         shape = (self.grid_height, self.grid_width)
